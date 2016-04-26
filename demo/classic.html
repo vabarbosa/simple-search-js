@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>simplesearch.js | results as table</title>
+  
+  <link rel="stylesheet" type="text/css" href="classic.css">
+  
+  <script type="text/javascript" src="../simplesearch.js"></script>
+
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function () {
+      var searchresults = document.querySelector("#searchresults");
+      
+      var success = function(results) {
+         if (searchresults) {
+           searchresults.innerHTML = "Results delivered in " + results.time + " ms";
+         }
+      };
+      
+      var fail = function(error) {
+        if (searchresults) {
+          searchresults.innerHTML = "Search failed";
+        }
+      };
+      
+      var before = function() {
+        searchresults.innerHTML = "Searching...";
+      };
+      
+      var simplesearch = new SimpleSearch("http://sss-got.mybluemix.net",
+          { onSuccess: success, onFail: fail, onBefore: before },
+          { inputField: "#simplesearchinput",
+            searchButton: true,
+            resultsTable: ".table_container",
+            facetsList: "#resultfacets" });
+    });
+  </script>
+</head>
+
+<body>
+  <div class="theme_classic">
+    <div class="banner">
+      <a target="_blank" href="https://developer.ibm.com/clouddataservices/simple-search-service/">Simple Search Services // Dev</a>
+    </div>
+    <section class="theme_light">
+      <h1 class="type_heading"><mark class="type_mark">Search</mark></h1>
+      <div class="form_field">
+        <div class="form_addon-group">
+          <input type="text" class="input_text" id="simplesearchinput" placeholder="Enter search query" name="searchterm">
+        </div>
+      </div>
+      <p id="searchresults"></p>
+    </section>
+    <section class="theme_dark">
+      <div class="content_wrapper">
+        <div class="facets_wrapper">
+          <div id="resultfacets"></div>
+        </div>
+        <div class="results_wrapper">
+          <div class="table_container"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

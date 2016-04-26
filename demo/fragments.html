@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>simplesearch.js | html fragments</title>
+  
+  <link rel="stylesheet" type="text/css" href="fragments.css">
+  <link href="lib/prism.css" rel="stylesheet" />
+  
+  <script src="http://code.jquery.com/jquery-1.12.2.min.js"
+          integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
+          crossorigin="anonymous"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+          crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('input#simplesearchinput').simpleSearch({
+        serviceUrl: "http://sss-got.mybluemix.net",
+        limit: 5,
+        resultsTable: ".results_table_fragments",
+        resultsList: ".results_list_fragments",
+        facetsList: ".facets_list_fragments",
+        onSuccess: function(results) {
+          $.each([".results_table_fragments", ".results_list_fragments", ".facets_list_fragments"],
+            function (index, value) {
+              var html = $(value).html();
+              var formatted = '';
+              var space = 0;
+              
+              for(var i = 0; i < html.length; i++) {
+                if (html.charAt(i) == '<') {
+                  if (html.charAt(i+1) == '/') {
+                      formatted += '\n';
+                      space -= 2;
+                      for (var j = 0; j < space; j++) {
+                        formatted += ' ';
+                      }
+                  }
+                  else {
+                    formatted += '\n';
+                    for (var j = 0; j < space; j++) {
+                      formatted += ' ';
+                    }
+                    space += 2;
+                  }
+                }
+                formatted += html.charAt(i);
+              }
+              
+              $(value).html(Prism.highlight(formatted, Prism.languages.markup));
+          });
+          
+          var json = JSON.stringify(results, null, 2);
+          $(".results_json_fragments").text(json);
+        }
+      });
+
+      $('.carousel').each(function(){
+          $(this).carousel({
+              interval: false
+          });
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+  <div class="theme-fragments">
+    <div class="navbar-wrapper">
+      <div class="container">
+        <nav class="navbar navbar-static-top">
+          <div>
+            <div class="navbar-header">
+              <a target="_blank" href="https://developer.ibm.com/clouddataservices/simple-search-service/">Simple Search Services // Dev</a>
+            </div>
+            <div class="collapse navbar-collapse">
+              <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                  <input id="simplesearchinput" type="text" class="form-control" placeholder="Enter search query">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+      </ol>
+      <div class="carousel-inner container" role="listbox">
+        <div class="item active">
+          <div class="container">
+            <h1 id="facets_unordered_list" class="page-header">Facets Unordered List</h1>
+            <div class="carousel-caption">
+              <pre><code  class="language-markup facets_list_fragments"></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="container">
+            <h1 id="search_results_table" class="page-header">Search Results Table</h1>
+            <div class="carousel-caption">
+              <pre><code class="language-markup results_table_fragments"></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="container">
+            <h1 id="search_results_list" class="page-header">Search Results Unordered List</h1>
+            <div class="carousel-caption">
+              <pre><code class="language-markup results_list_fragments"></code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="container">
+            <h1 id="search_results_json" class="page-header">Search Results Raw JSON</h1>
+            <div class="carousel-caption">
+              <pre><code class="language-json results_json_fragments"></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript" src="../simplesearch.js"></script>
+  <script type="text/javascript" src="../jquery.simplesearch.js"></script>
+  <script type="text/javascript" src="lib/prism.js"></script>
+  
+</body>
+
+</html>
