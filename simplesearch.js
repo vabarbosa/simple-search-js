@@ -479,15 +479,19 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   function getTablePagingHTML(page, limit, total) {
     var start = (page * limit) + 1;
     var end = start + limit - 1;
-    
+
     if (start < 1) {
       start = 1;
     }
-    
+
+    if (total < 1) {
+      start = 0;
+    }
+
     if (end > total) {
       end = total;
     }
-    
+
     if (start > end) {
       end = start;
     }
@@ -498,7 +502,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       '>Prev</button> <button class="simplesearch-next"' +
       (end >= total ? ' disabled' : '') +
       '>Next</button></div>';
-    
+
     return pagingDom;
   };
 
@@ -535,6 +539,10 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     
     if (start < 1) {
       start = 1;
+    }
+    
+    if (total < 1) {
+      start = 0;
     }
     
     if (end > total) {
@@ -594,15 +602,19 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   function getCountHTML(total, paging) {
     var start = ((paging.bookmarks.length-1) * paging.limit) + 1;
     var end = start + paging.limit - 1;
-    
+
     if (start < 1) {
       start = 1;
     }
-    
+
+    if (total < 1) {
+      start = 0;
+    }
+
     if (end > total) {
       end = total;
     }
-    
+
     if (start > end) {
       end = start;
     }
