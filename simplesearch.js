@@ -576,7 +576,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       listDom += "<p><span>" + fields[field].name + "</span> ";
       
       if (Array.isArray(n) && n.length > 0) {
-        if (n.length == 1 && (!n[0] || n[0].length > 0)) {
+        if (n.length == 1 && (!n[0] || n[0].length == 0)) {
           listDom += "<span> </span></p>";
         }
         else {
