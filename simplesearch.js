@@ -569,31 +569,27 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   };
 
   function getListHTML(row, fields) {
-    var listDom = "<li class='simplesearch-list-item' tabindex='0'>";
-    
+    var listDom = "<li class='simplesearch-list-item'>";
+    listDom += "<dl>";
+
     for (var field in fields) {
       var n = row[fields[field].name];
-      listDom += "<p><span>" + fields[field].name + "</span> ";
+      listDom += "<dt>" + fields[field].name + "</dt> ";
       
       if (Array.isArray(n) && n.length > 0) {
-        if (n.length == 1 && (!n[0] || n[0].length == 0)) {
-          listDom += "<span> </span></p>";
-        }
-        else {
-          listDom += "</p><ul>";
-          
+        if (n.length > 1 || (n[0] && n[0].length > 0)) {
           for (var l in n) {
-            listDom += "<li>" + n[l] + "</li>";
+            listDom += "<dd>" + n[l] + "</dd>";
           }
-          
-          listDom += "</ul>";
         }
       }
-      else {
-        listDom += "<span>" + (n || '') + "</span></p>";
+      else if (n && n.length > 0) {
+        listDom += "<dd>" + n + "</dd>";
       }
+
     }
-    
+
+    listDom += "</dl>";    
     listDom += "</li>";
     
     return listDom;
