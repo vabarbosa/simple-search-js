@@ -65,17 +65,15 @@ body {
           box-shadow: inset 0px 0px 30px -5px rgba(0,0,0,0.75);
 }
 
-.facets_wrapper h4 {
-  color: #fff;
-    letter-spacing: 1px;
-}
-
 .results_wrapper {
   min-height: 300px;
   padding: 20px 50px;
 }
 
-
+.simplesearch-facet-key {
+  color: #fff;
+    letter-spacing: 1px;
+}
 
 .simplesearch-count {
   color: #ffffff;
@@ -134,7 +132,7 @@ body {
   margin: auto;
 }
 
-.simplesearch-list-item {
+.simplesearch-result {
   color: #fff;
   display: inline-block;
   letter-spacing: 2px;
@@ -145,54 +143,54 @@ body {
   width: calc(100% / 5 - 30px);
 }
 
-.simplesearch-list-item:nth-child(6n) {
+.simplesearch-result:nth-child(6n) {
   background-color: #9BB93F;
 }
 .simplesearch-facet-value:nth-child(6n):hover,
-.simplesearch-list-item:nth-child(6n) dt {
+.simplesearch-result:nth-child(6n) dt {
   color: #dde7bc;
 }
 
-.simplesearch-list-item:nth-child(6n+1) {
+.simplesearch-result:nth-child(6n+1) {
   background-color: #8F5D98;
 }
 .simplesearch-facet-value:nth-child(6n+1):hover,
-.simplesearch-list-item:nth-child(6n+1) dt {
+.simplesearch-result:nth-child(6n+1) dt {
   color: #c7aecb;
 }
 
-.simplesearch-list-item:nth-child(6n+2) {
+.simplesearch-result:nth-child(6n+2) {
   background-color: #f1c954;
 }
 .simplesearch-facet-value:nth-child(6n+2):hover,
-.simplesearch-list-item:nth-child(6n+2) dt {
+.simplesearch-result:nth-child(6n+2) dt {
   color: #fcecba;
 }
 
-.simplesearch-list-item:nth-child(6n+3) {
+.simplesearch-result:nth-child(6n+3) {
   background-color: #de5b7e;
 }
 .simplesearch-facet-value:nth-child(6n+3):hover,
-.simplesearch-list-item:nth-child(6n+3) dt {
+.simplesearch-result:nth-child(6n+3) dt {
   color: #f0c8c4;
 }
 
-.simplesearch-list-item:nth-child(6n+4) {
+.simplesearch-result:nth-child(6n+4) {
   background-color: #de795b;
 }
 .simplesearch-facet-value:nth-child(6n+4):hover,
-.simplesearch-list-item:nth-child(6n+4) dt {
+.simplesearch-result:nth-child(6n+4) dt {
   color: #fbe0bd;
 }
 
-.simplesearch-list-item:nth-child(6n+5) {
+.simplesearch-result:nth-child(6n+5) {
   background-color: #5bc0de;
 }
 .simplesearch-facet-value:nth-child(6n+5):hover,
-.simplesearch-list-item:nth-child(6n+5) dt {
+.simplesearch-result:nth-child(6n+5) dt {
   color: #bad5f1;
 }
 
-.simplesearch-list-item dt {
+.simplesearch-result dt {
   font-size: 0.8rem;
 }

@@ -8,7 +8,6 @@ body {
 	background-color: #152935;
   box-sizing: border-box;
   font: normal normal 400 1em/1.4 "HelvNeue", Helvetica, sans-serif;
-  /* min-width: 100vw; */
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -193,15 +192,12 @@ a {
   overflow-x: auto;
 }
 
-
-
 .simplesearch-count {
   display: inline-block;
   margin-bottom: 25px;
 }
 
 .simplesearch-paging {
-  display: inline-block;
   float: right;
   font-size: 0.9em;
   margin-bottom: 25px;
@@ -304,11 +300,11 @@ a {
   white-space: nowrap;
 }
 
-.simplesearch-table tbody tr:nth-child(odd) {
+.simplesearch-result:nth-child(odd) {
   background-color: #152935;
 }
 
-.simplesearch-table tbody tr:nth-child(even) {
+.simplesearch-result:nth-child(even) {
   background-color: #264a60;
 }
 

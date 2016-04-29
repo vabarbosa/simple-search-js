@@ -16,7 +16,7 @@
  * 
  * example (programmatically):
  * 
- *   var searchUtil = SimpleSearch("http://a-simple-search-service-url.com", callbackFuncs, selectors);
+ *   var searchUtil = SimpleSearch('http://a-simple-search-service-url.com', callbackFuncs, selectors);
  * 
  * the 'callbackFuncs' passed should be an object containing the callback functions to call
  * after a request has completed. three callback functions can be defined- onFail if the
@@ -32,8 +32,8 @@
  * a search is made automatically when ENTER key is pressed on the input field.
  * in addition, the search can also be performed programmatically
  * 
- *   searchUtil.search("*:*");  // search using passed query and default limit
- *   searchUtil.search("*:*", 10);  // search using passed query and specified limit
+ *   searchUtil.search('*:*');  // search using passed query and default limit
+ *   searchUtil.search('*:*', 10);  // search using passed query and specified limit
  * 
  * the results table includes next/previous paging elements. however, paging can also
  * be programmatically called:
@@ -43,14 +43,14 @@
  * 
  */
 var SimpleSearch = function(serviceUrl, callbacks, containers) {
-  "use strict";
+  'use strict';
 
   var url = serviceUrl || window.location.origin;
   var selectors = containers || {};
   var callbackFunc = callbacks || {};
 
   var paging = {
-    query: "*:*",
+    query: '*:*',
     limit: null,
     bookmarks: [],
     hasMore: false
@@ -60,14 +60,14 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     url += '/';
   }
 
-  var inputField = (typeof selectors.inputField === "string") ? document.querySelector(selectors.inputField) : selectors.inputField;
-  inputField.value = (inputField.value || (selectors.query ? selector.query : ""));
+  var inputField = (typeof selectors.inputField === 'string') ? document.querySelector(selectors.inputField) : selectors.inputField;
+  inputField.value = (inputField.value || (selectors.query ? selector.query : ''));
   
   var searchButton = false;
-  if (selectors.searchButton === true || selectors.searchButton === "true") {
-    searchButton = "simplesearch-button";
+  if (selectors.searchButton === true || selectors.searchButton === 'true') {
+    searchButton = 'simplesearch-button';
   }
-  else if (typeof selectors.searchButton === "string") {
+  else if (typeof selectors.searchButton === 'string') {
     searchButton == selectors.searchButton;
   }
   
@@ -75,27 +75,27 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   var reset = null;
   
   function initSpinner() {
-    spinner = document.createElement("div");
-    spinner.className = "simplesearch-spinner";
-    spinner.innerHTML = "&profline;";
-    spinner.style.display = "inline-block";
-    spinner.style.margin = "5px";
-    spinner.style.animationName = "simpleSearchSpinner";
-    spinner.style.animationDuration = "0.5s";
-    spinner.style.animationTimingFunction = "linear";
-    spinner.style.animationIterationCount = "infinite";
+    spinner = document.createElement('div');
+    spinner.className = 'simplesearch-spinner';
+    spinner.innerHTML = '&profline;';
+    spinner.style.display = 'inline-block';
+    spinner.style.margin = '5px';
+    spinner.style.animationName = 'simpleSearchSpinner';
+    spinner.style.animationDuration = '0.5s';
+    spinner.style.animationTimingFunction = 'linear';
+    spinner.style.animationIterationCount = 'infinite';
 
     // add keyframe styles for spinner to <HEAD>
     if (document.getElementById) {
-      var style = "@-webkit-keyframes simpleSearchSpinner" +
-        "{from{-webkit-transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);}}" +
-        "@-moz-keyframes simpleSearchSpinner" +
-        "{from{-moz-transform:rotate(0deg);}to{-moz-transform:rotate(360deg);}}" +
-        "@-ms-keyframes simpleSearchSpinner" +
-        "{from{-ms-transform:rotate(0deg);}to{-ms-transform:rotate(360deg);}}";
+      var style = '@-webkit-keyframes simpleSearchSpinner' +
+        '{from{-webkit-transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);}}' +
+        '@-moz-keyframes simpleSearchSpinner' +
+        '{from{-moz-transform:rotate(0deg);}to{-moz-transform:rotate(360deg);}}' +
+        '@-ms-keyframes simpleSearchSpinner' +
+        '{from{-ms-transform:rotate(0deg);}to{-ms-transform:rotate(360deg);}}';
       
-      var st = document.createElement("style"); 
-      st.setAttribute("id", "simplesearch-style");
+      var st = document.createElement('style'); 
+      st.setAttribute('id', 'simplesearch-style');
       st.innerHTML = style;
       document.getElementsByTagName('head')[0].appendChild(st);
     }
@@ -104,18 +104,18 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   function initInputField() {
     if (inputField) {
       // set up input field reset button
-      reset = document.createElement("div");
-      reset.className = "simplesearch-reset";
-      reset.innerHTML = "&times;";
-      reset.style.color = "#323232";
-      reset.style.cursor = "pointer";
-      reset.style.display = "inline-block";
-      reset.style.left = "-1em";
-      reset.style.margin = "auto";
-      reset.style.position = "relative";
-      reset.style.visibility = "hidden";
-      reset.setAttribute("tabindex", 0);
-      reset.setAttribute("role", "button");
+      reset = document.createElement('div');
+      reset.className = 'simplesearch-reset';
+      reset.innerHTML = '&times;';
+      reset.style.color = '#323232';
+      reset.style.cursor = 'pointer';
+      reset.style.display = 'inline-block';
+      reset.style.left = '-1em';
+      reset.style.margin = 'auto';
+      reset.style.position = 'relative';
+      reset.style.visibility = 'hidden';
+      reset.setAttribute('tabindex', 0);
+      reset.setAttribute('role', 'button');
 
       // perform search on Enter key press
       inputField.addEventListener('keydown', function(event) {
@@ -127,15 +127,15 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       });
 
       // add input field reset button
-      if (inputField.parentNode.querySelector(".simplesearch-reset") == null) {
+      if (inputField.parentNode.querySelector('.simplesearch-reset') == null) {
         inputField.parentNode.insertBefore(reset, inputField.nextSibling);
       }
 
-      reset.addEventListener("click", function(event) {
+      reset.addEventListener('click', function(event) {
         event.preventDefault();
-        reset.style.visibility = "hidden";
+        reset.style.visibility = 'hidden';
         inputField.focus();
-        search("*:*");
+        search('*:*');
       });
 
       // perform search on Enter key press
@@ -143,16 +143,16 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
         var key = event.which || eevent.keyCode;
         if (key === 13 && inputField.value && inputField.value.length > 0) {
           event.preventDefault();
-          reset.style.visibility = "hidden";
+          reset.style.visibility = 'hidden';
           inputField.focus();
-          search("*:*");
+          search('*:*');
         }
       });
 
       // show/hide input field reset button
-      inputField.addEventListener("input", function(event) {
-        var c = event.target.value !== "*:*";
-        reset.style.visibility = (c ? "initial" : "hidden");
+      inputField.addEventListener('input', function(event) {
+        var c = event.target.value !== '*:*';
+        reset.style.visibility = (c ? 'initial' : 'hidden');
       });
       
       //  attach to search button click
@@ -160,13 +160,13 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
         var button = document.querySelector(searchButton);
         // add input field reset button
         if (button == null) {
-          button = document.createElement("button");
+          button = document.createElement('button');
           button.className = searchButton;
-          button.innerHTML = " Search ";
+          button.innerHTML = ' Search ';
           reset.parentNode.insertBefore(button, reset.nextSibling);
         }
         
-        button.addEventListener("click", function() {
+        button.addEventListener('click', function() {
           search(inputField.value);
         });
       }
@@ -185,7 +185,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       b = opts.bookmark
     }
     else {
-      q = (searchquery || "*:*");
+      q = (searchquery || '*:*');
       l = opts.limit;
 
       // reset private variables
@@ -194,9 +194,9 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       paging.bookmarks = [];
     }
 
-    return url + "search?q=" + q + 
-            (l ? ("&limit=" + l) : "") + 
-            (b ? ("&bookmark=" + b) : "");
+    return url + 'search?q=' + q + 
+            (l ? ('&limit=' + l) : '') + 
+            (b ? ('&bookmark=' + b) : '');
   };
 
   function search(searchquery, options, fromPaging) {
@@ -244,7 +244,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       xhrSearch(searchurl, doneFunc);
     }
     else {
-      handleFail({error: "bad_request", reason: "Missing search query"})
+      handleFail({error: 'bad_request', reason: 'Missing search query'})
     }
   };
 
@@ -254,7 +254,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     }
 
     for (var selector in selectors) {
-      if (selector === "resultsTable" || selector === "resultsList" || selector === "facetsList") {
+      if (selector === 'resultsTable' || selector === 'resultsList' || selector === 'facetsList') {
         var container = document.querySelector(selectors[selector]);
         if (container) {
           while (container && container.firstChild) {
@@ -269,7 +269,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   function xhrSearch(searchurl, callback) {
     var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", searchurl, true);
+    xmlhttp.open('GET', searchurl, true);
 
     xmlhttp.onreadystatechange = function(e) {
       if (xmlhttp.readyState == 4) {
@@ -296,10 +296,10 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
 
     if (first) {
       for (var field in first) {
-        if (field != "_id" && field != "_rev" && field != "_order") {
+        if (field != '_id' && field != '_rev' && field != '_order') {
           results.fields.push({
             name: field,
-            type: (typeof first[field] === "number" ? "number" : "string")
+            type: (typeof first[field] === 'number' ? 'number' : 'string')
           });
         }
       }
@@ -307,7 +307,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       for (var field in data.counts) {
         results.facets.push({
           name: field,
-          type: (typeof first[field] === "number" ? "number" : "string")
+          type: (typeof first[field] === 'number' ? 'number' : 'string')
         });
       }
     }
@@ -324,27 +324,27 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       container.appendChild(spinner.cloneNode(true));
     }
     
-    if (action.toLowerCase() === "prev") {
+    if (action.toLowerCase() === 'prev') {
       _prev();
     }
-    else if (action.toLowerCase() === "next") {
+    else if (action.toLowerCase() === 'next') {
       _next();
     }
   };
 
   function handleFail(response) {
-    var c = inputField.value !== "*:*";
-    reset.style.visibility = (c ? "initial" : "hidden");
+    var c = inputField.value !== '*:*';
+    reset.style.visibility = (c ? 'initial' : 'hidden');
 
     for (var selector in selectors) {
-      if (selector === "resultsTable" || selector === "resultsList" || selector === "facetsList") {
+      if (selector === 'resultsTable' || selector === 'resultsList' || selector === 'facetsList') {
         var container = document.querySelector(selectors[selector]);
         if (container) {
           while (container.firstChild) {
             container.removeChild(container.firstChild);
           }
-          if (selector !== "facetsList") {
-            container.innerHTML = ("Search Error: " + response.responseText);
+          if (selector !== 'facetsList') {
+            container.innerHTML = ('Search Error: ' + response.responseText);
           }
         }
       }
@@ -356,8 +356,8 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   };
 
   function handleSuccess(results, fromPaging) {
-    var c = inputField.value !== "*:*";
-    reset.style.visibility = (c ? "initial" : "hidden");
+    var c = inputField.value !== '*:*';
+    reset.style.visibility = (c ? 'initial' : 'hidden');
 
     if (selectors.resultsTable) {
       var resultsTable = formatAsTable(results.fields, results.data.rows, results.data.total_rows, results.paging);
@@ -369,17 +369,17 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       
       container.appendChild(resultsTable);
 
-      var prev = container.querySelector(".simplesearch-prev:not(.disabled)");
+      var prev = container.querySelector('.simplesearch-prev:not(.disabled)');
       if (prev) {
-        prev.addEventListener("click", function() {
-          performPaging("prev");
+        prev.addEventListener('click', function() {
+          performPaging('prev');
         });
       }
 
-      var next = container.querySelector(".simplesearch-next:not(.disabled)");
+      var next = container.querySelector('.simplesearch-next:not(.disabled)');
       if (next) {
-        next.addEventListener("click", function() {
-          performPaging("next");
+        next.addEventListener('click', function() {
+          performPaging('next');
         });
       }
     };
@@ -391,11 +391,11 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
           // reached end of list, hide More button
           var last = (results.paging.bookmarks.length * results.paging.limit);
           if (last >= results.data.total_rows) {
-            container.querySelector(".simplesearch-more").style.display = "none";
+            container.querySelector('.simplesearch-more').style.display = 'none';
           }
           
           // get formatted list items
-          var list = container.querySelector(".simplesearch-list");
+          var list = container.querySelector('.simplesearch-list');
           var liwrapper = document.createElement('div');
           var rows = results.data.rows;
           
@@ -406,7 +406,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
           }
           
           // update count
-          container.querySelector(".simplesearch-count").innerHTML = getCountHTML(results.data.total_rows, results.paging);
+          container.querySelector('.simplesearch-count').innerHTML = getCountHTML(results.data.total_rows, results.paging);
         }
         else {
           var resultsList = formatAsList(results.fields, results.data.rows, results.data.total_rows, results.paging);
@@ -416,10 +416,10 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
           }
           container.appendChild(resultsList);
           
-          var more = container.querySelector(".simplesearch-more");
+          var more = container.querySelector('.simplesearch-more');
           if (more) {
-            more.addEventListener("click", function() {
-              performPaging("next");
+            more.addEventListener('click', function() {
+              performPaging('next');
             });
           }
         }
@@ -429,10 +429,10 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     if (selectors.facetsList && !fromPaging) {
       var facetsList = getFacetsList(results.data.counts);
 
-      var tagcloud = facetsList.querySelectorAll(".simplesearch-facet-value-name");
+      var tagcloud = facetsList.querySelectorAll('.simplesearch-facet-value-name');
       for (var i = 0; i < tagcloud.length; i++) {
-        tagcloud[i].addEventListener("click", function(event) {
-          var query = sanitizeQuery(inputField.value, event.target.getAttribute("data-search-query"));
+        tagcloud[i].addEventListener('click', function(event) {
+          var query = sanitizeQuery(inputField.value, event.target.getAttribute('data-search-query'));
           search(query);
         });
       }
@@ -469,8 +469,8 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       '</thead><tbody>' + resultrows +
       '</tbody></table>';
 
-    var table = document.createElement("div");
-    table.className = "simplesearch-results-table";
+    var table = document.createElement('div');
+    table.className = 'simplesearch-results-table';
     table.innerHTML = tableHTML;
     
     return table;
@@ -507,27 +507,27 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   };
 
   function getRowHTML(row, fields) {
-    var rowDom = "<tr>";
+    var rowDom = '<tr class="simplesearch-result">';
     
     for (var field in fields) {
       var n = row[fields[field].name];
       if (Array.isArray(n) && n.length > 0) {
-        rowDom += "<td><ul>";
+        rowDom += '<td><ul>';
         
         for (var l in n) {
           if (n[l]) {
-            rowDom += "<li>" + n[l] + "</li>";
+            rowDom += '<li>' + n[l] + '</li>';
           }
         }
         
-        rowDom += "</ul></td>";
+        rowDom += '</ul></td>';
       }
       else {
-        rowDom += "<td><span>" + (n || "") + "</span></td>";
+        rowDom += '<td><span>' + (n || '') + '</span></td>';
       }
     }
     
-    rowDom += "</tr>";
+    rowDom += '</tr>';
     
     return rowDom;
   };
@@ -561,36 +561,36 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       '<ul class="simplesearch-list">' + resultlist + '</ul>' +
       (end >= total ? '' : '<div class="simplesearch-paging"><button class="simplesearch-more">More</button>');
 
-    var list = document.createElement("div");
-    list.className = "simplesearch-results-list";
+    var list = document.createElement('div');
+    list.className = 'simplesearch-results-list';
     list.innerHTML = listHTML;
     
     return list;
   };
 
   function getListHTML(row, fields) {
-    var listDom = "<li class='simplesearch-list-item'>";
-    listDom += "<dl>";
+    var listDom = '<li class="simplesearch-result">';
+    listDom += '<dl>';
 
     for (var field in fields) {
       var n = row[fields[field].name];
-      listDom += "<dt>" + fields[field].name + "</dt> ";
+      listDom += '<dt>' + fields[field].name + '</dt>';
       
       if (Array.isArray(n) && n.length > 0) {
         if (n.length > 1 || (n[0] && n[0].length > 0)) {
           for (var l in n) {
-            listDom += "<dd>" + n[l] + "</dd>";
+            listDom += '<dd>' + n[l] + '</dd>';
           }
         }
       }
       else if (n && n.length > 0) {
-        listDom += "<dd>" + n + "</dd>";
+        listDom += '<dd>' + n + '</dd>';
       }
 
     }
 
-    listDom += "</dl>";    
-    listDom += "</li>";
+    listDom += '</dl>';    
+    listDom += '</li>';
     
     return listDom;
   };
@@ -624,7 +624,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     for (var countkey in counts) {
       var countvalue = counts[countkey];
       
-      facets += '<div><h4 class="simplesearch-facet-key">' + countkey + '</h4>';
+      facets += '<div class="simplesearch-facet"><h4 class="simplesearch-facet-key">' + countkey + '</h4>';
       facets += '<ul class="simplesearch-facet-value-list">';
       
       for (var facetkey in countvalue) {
@@ -635,8 +635,8 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       facets += '</ul></div>';
     }
 
-    var list = document.createElement("div");
-    list.className = "simplesearch-facets-list";
+    var list = document.createElement('div');
+    list.className = 'simplesearch-facets-list';
     list.innerHTML = facets;
     
     return list;
@@ -655,7 +655,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   };
   
   function sanitizeQuery(current, next) {
-    var keyvalue = next.split(":");
+    var keyvalue = next.split(':');
     
     // add quotes if facet contains space and is not already quoted
     var query = (keyvalue[0].indexOf(' ') == -1 || keyvalue[0].startsWith('"')) ? 
@@ -664,7 +664,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
 
     // add quotes if value contains space and is not already quoted
     if (keyvalue[1]) {
-      query += ":";
+      query += ':';
       query += (keyvalue[1].indexOf(' ') == -1 || keyvalue[1].startsWith('"')) ?
           keyvalue[1] :
           ('"' + keyvalue[1] + '"');
@@ -673,32 +673,32 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     // remove search query if already exists
     // else append search query
     if (current.indexOf(query) > -1) {
-      query = current.replace(query, "").replace(/((\sAND\s)+)/ig, " AND ");
+      query = current.replace(query, '').replace(/((\sAND\s)+)/ig, ' AND ');
     }
-    else if (current !== "*:*") {
-      var regex = new RegExp(keyvalue[0] + ":\".*?\"", "i");
+    else if (current !== '*:*') {
+      var regex = new RegExp(keyvalue[0] + ':\".*?\"', 'i');
       var facet = current.match(regex);
 
       if (facet) {
         query = current.replace(facet, query);
       }
       else {
-        query += (" AND " + current);
+        query += (' AND ' + current);
       }
     }
 
     query = query.trim();
     
-    if (query.startsWith("AND")) {
+    if (query.startsWith('AND')) {
       query = query.substring(3);
     }
     
-    if (query.endsWith("AND")) {
-      query = query.substring(0, query.lastIndexOf("AND"));
+    if (query.endsWith('AND')) {
+      query = query.substring(0, query.lastIndexOf('AND'));
     }
     
     if (query.length == 0) {
-      query = "*:*";
+      query = '*:*';
     }
     
     return query.trim();
@@ -718,7 +718,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       search(null, {bookmark: paging.bookmarks[paging.bookmarks.length - 1]}, true);
     }
     else if (callbackFunc.onFail) {
-      callbackFunc.onFail({error: "bad_request", reason: "Page out of bounds: No next page"});
+      callbackFunc.onFail({error: 'bad_request', reason: 'Page out of bounds: No next page'});
     }
   };
   
@@ -733,7 +733,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       }
     }
     else if (callbackFunc.onFail) {
-      callbackFunc.onFail({error: "bad_request", reason: "Page out of bounds: No prev page"});
+      callbackFunc.onFail({error: 'bad_request', reason: 'Page out of bounds: No prev page'});
     }
   };
   
@@ -752,15 +752,15 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
 // find elements with  data-simple-search attributes and initiate them
 (function() {
   window.addEventListener('DOMContentLoaded', function () {
-    var inputs = document.querySelectorAll("[data-simple-search]");
+    var inputs = document.querySelectorAll('[data-simple-search]');
     
     for (var i = 0; i < inputs.length; i++) {
       var node = inputs[i];
-      var serviceUrl = node.getAttribute("data-simple-search");
+      var serviceUrl = node.getAttribute('data-simple-search');
       var containers = {
-        resultsTable: node.getAttribute("data-search-table"),
-        resultsList: node.getAttribute("data-search-list"),
-        facetsList: node.getAttribute("data-search-facets"),
+        resultsTable: node.getAttribute('data-search-table'),
+        resultsList: node.getAttribute('data-search-list'),
+        facetsList: node.getAttribute('data-search-facets'),
         inputField: node
       };
       
