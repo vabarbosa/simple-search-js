@@ -56,7 +56,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     hasMore: false
   };
 
-  if (!url.endsWith('/')) {
+  if (url.lastIndexOf('/') != url.length - 1) {
     url += '/';
   }
 
@@ -693,7 +693,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       query = query.substring(3);
     }
     
-    if (query.endsWith('AND')) {
+    if (query.lastIndexOf('AND') == query.length - 3) {
       query = query.substring(0, query.lastIndexOf('AND'));
     }
     
