@@ -658,14 +658,14 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     var keyvalue = next.split(':');
     
     // add quotes if facet contains space and is not already quoted
-    var query = (keyvalue[0].indexOf(' ') == -1 || keyvalue[0].startsWith('"')) ? 
+    var query = (keyvalue[0].indexOf(' ') == -1 || keyvalue[0].indexOf('"') == 0) ? 
           keyvalue[0] : 
           ('"' + keyvalue[0] + '"');
 
     // add quotes if value contains space and is not already quoted
     if (keyvalue[1]) {
       query += ':';
-      query += (keyvalue[1].indexOf(' ') == -1 || keyvalue[1].startsWith('"')) ?
+      query += (keyvalue[1].indexOf(' ') == -1 || keyvalue[1].indexOf('"') == 0) ?
           keyvalue[1] :
           ('"' + keyvalue[1] + '"');
     }
@@ -689,7 +689,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
 
     query = query.trim();
     
-    if (query.startsWith('AND')) {
+    if (query.indexOf('AND') == 0) {
       query = query.substring(3);
     }
     
