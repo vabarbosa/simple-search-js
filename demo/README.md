@@ -1,4 +1,4 @@
-# Sample Themes for the Simple Search Service
+# Examples of the Simple Search Service using SimpleSearchJS
   
   
 ## nostyle.html
