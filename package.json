@@ -1,0 +1,11 @@
+{
+  "name": "simple-search-js",
+  "version": "1.0.1",
+  "description": "JavaScript module that makes it even easier to consume the Simple Search Service API and enhance your web page.",
+  "bin": "./simplesearch.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibm-cds-labs/simple-search-js.git"
+  },
+  "license": "Apache-2.0"
+}
