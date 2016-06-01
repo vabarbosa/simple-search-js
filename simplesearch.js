@@ -45,7 +45,6 @@
 var SimpleSearch = function(serviceUrl, callbacks, containers) {
   'use strict';
 
-  var url = serviceUrl || window.location.origin;
   var selectors = containers || {};
   var callbackFunc = callbacks || {};
 
@@ -56,12 +55,46 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     hasMore: false
   };
 
+  var inputField = null;
+  if (selectors && selectors.inputField) {
+    inputField = (typeof selectors.inputField === 'string') ? document.querySelector(selectors.inputField) : selectors.inputField;
+  }
+  else {
+    inputField = document.querySelectorAll('[data-simple-search]')[0];
+  }
+  inputField.value = (inputField.value || (selectors.query ? selector.query : ''));
+  
+  //check data-search-* attributes
+  if (!selectors.resultsTable) {
+    var rt = inputField.getAttribute('data-search-table');
+    if (rt) {
+      selectors.resultsTable = rt;
+    }
+  }
+  
+  if (!selectors.resultsList) {
+    var rt = inputField.getAttribute('data-search-list');
+    if (rt) {
+      selectors.resultsList = rt;
+    }
+  }
+  
+  if (!selectors.facetsList) {
+    var rt = inputField.getAttribute('data-search-facets');
+    if (rt) {
+      selectors.facetsList = rt;
+    }
+  }
+  
+  var url = serviceUrl;
+  
+  if (!url) {
+    url = inputField.getAttribute('data-simple-search') || window.location.origin;
+  }
+  
   if (url.lastIndexOf('/') != url.length - 1) {
     url += '/';
   }
-
-  var inputField = (typeof selectors.inputField === 'string') ? document.querySelector(selectors.inputField) : selectors.inputField;
-  inputField.value = (inputField.value || (selectors.query ? selector.query : ''));
   
   var searchButton = false;
   if (selectors.searchButton === true || selectors.searchButton === 'true') {
