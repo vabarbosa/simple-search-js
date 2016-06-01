@@ -60,7 +60,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     inputField = (typeof selectors.inputField === 'string') ? document.querySelector(selectors.inputField) : selectors.inputField;
   }
   else {
-    inputField = document.querySelectorAll('[data-simple-search]')[0];
+    inputField = document.querySelector('[data-simple-search],[data-search-table],[data-search-list],[data-search-facets]');
   }
   inputField.value = (inputField.value || (selectors.query ? selector.query : ''));
   
