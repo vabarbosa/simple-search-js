@@ -607,17 +607,17 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
 
     for (var field in fields) {
       var n = row[fields[field].name];
-      listDom += '<dt class="field-' + fields[field].name.replace(/\s/g, '_') + '">' + fields[field].name + '</dt>';
+      listDom += '<dt class="simplesearch-field-' + fields[field].name.replace(/\s/g, '_') + '">' + fields[field].name + '</dt>';
       
       if (Array.isArray(n) && n.length > 0) {
         if (n.length > 1 || (n[0] && n[0].length > 0)) {
           for (var l in n) {
-            listDom += '<dd class="value-' + fields[field].name.replace(/\s/g, '_') + '">' + n[l] + '</dd>';
+            listDom += '<dd class="simplesearch-value-' + fields[field].name.replace(/\s/g, '_') + '">' + n[l] + '</dd>';
           }
         }
       }
       else if (n && n.length > 0) {
-        listDom += '<dd class="value-' + fields[field].name.replace(/\s/g, '_') + '">' + n + '</dd>';
+        listDom += '<dd class="simplesearch-value-' + fields[field].name.replace(/\s/g, '_') + '">' + n + '</dd>';
       }
 
     }
