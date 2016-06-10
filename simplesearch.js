@@ -42,11 +42,12 @@
  *   searchUtil.prev();
  * 
  */
-var SimpleSearch = function(serviceUrl, callbacks, containers) {
+var SimpleSearch = function(serviceUrl, callbacks, containers, configuration) {
   'use strict';
 
   var selectors = containers || {};
   var callbackFunc = callbacks || {};
+  var config = configuration || {};
 
   var paging = {
     query: '*:*',
@@ -62,7 +63,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   else {
     inputField = document.querySelector('[data-simple-search],[data-search-table],[data-search-list],[data-search-facets]');
   }
-  inputField.value = (inputField.value || (selectors.query ? selector.query : ''));
+  inputField.value = (getUrlQueryString('q') || selectors.query || inputField.value || '');
   
   //check data-search-* attributes
   if (!selectors.resultsTable) {
@@ -94,6 +95,12 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   
   if (url.lastIndexOf('/') != url.length - 1) {
     url += '/';
+  }
+
+  var key = inputField.id || url;
+  if (key && SimpleSearch.inputs[key]) {
+    SimpleSearch.update(key, callbackFunc, selectors);
+    return;
   }
   
   var searchButton = false;
@@ -206,6 +213,17 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
     }
   };
 
+  function getUrlQueryString(queryparam) {
+    if (config.disableDeepLinking === true) {
+      return null;
+    }
+    else {
+      var key = escape(queryparam).replace(/[\.\+\*]/g, "\\$&");
+      var regex = new RegExp("^(?:.*[&\\?]" + key + "(?:\\=([^&]*))?)?.*$", "i");
+      return unescape(window.location.search.replace(regex, "$1"));
+    }
+  }
+
   function getSearchUrl(searchquery, options) {
     var q = null;
     var l = null;
@@ -316,7 +334,28 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
       }
     };
 
+    updateLocation();
     xmlhttp.send();
+  }
+
+  function updateLocation() {
+    if (config.disableDeepLinking !== true) {
+      if (getUrlQueryString('q') !== inputField.value && history.pushState) {
+        var updatedurl = null;
+
+        if (getUrlQueryString('q')) {
+          updatedurl = window.location.href.replace(/(\?|&)(q=)([^&]*)/g, '$1q=' + inputField.value);
+        }
+        else if (window.location.href.indexOf('?') == -1) {
+          updatedurl = window.location.href + '?q=' + inputField.value;
+        } 
+        else {
+          updatedurl = window.location.href + '&q=' + inputField.value;
+        }
+
+        window.history.pushState({ path: updatedurl }, '', updatedurl);
+      }
+    }
   }
 
   function xhrSuccess(data) {
@@ -777,27 +816,78 @@ var SimpleSearch = function(serviceUrl, callbacks, containers) {
   return {
     search: _search,
     next: _next,
-    prev: _prev
+    prev: _prev,
+    callbacks: function(cbs) {
+      var c = cbs || {};
+      for (var cb in c) {
+        callbackFunc[cb] = c[cb];
+      }
+    },
+    selectors: function(slts) {
+      var s = slts || {};
+      for (var slt in s) {
+        selectors[slt] = s[slt];
+      }
+    },
+    configuration: function(configs) {
+      var c = configs || {};
+      for (var cfg in c) {
+        config[cfg] = c[cfg];
+      }
+    }
   }
 };
 
+SimpleSearch.update = function(nodeid, callbacks, selectors, configs) {
+  var inputs = [];
+  if (nodeid) {
+    var ssearch = SimpleSearch.inputs[nodeid];
+    if (ssearch) {
+      ssearch.callbacks(callbacks);
+      ssearch.selectors(selectors);
+      ssearch.configuration(configs);
+    }
+    else {
+      var node = document.getElementById(nodeid);
+      node ? inputs.push(node) : inputs = document.querySelectorAll('[data-simple-search]');
+    }
+  }
+  else {
+    inputs = document.querySelectorAll('[data-simple-search]');
+  }
 
-// find elements with  data-simple-search attributes and initiate them
+  for (var i = 0; i < inputs.length; i++) {
+    var node = inputs[i];
+    var serviceUrl = node.getAttribute('data-simple-search');
+    var containers = {
+      resultsTable: (selectors && selectors.resultsTable) ?
+          selectors.resultsTable : 
+          node.getAttribute('data-search-table'),
+      resultsList: (selectors && selectors.resultsList) ?
+          selectors.resultsList :
+          node.getAttribute('data-search-list'),
+      facetsList: (selectors && selectors.facetsList) ?
+          selectors.facetsList :
+          node.getAttribute('data-search-facets'),
+      inputField: node
+    };
+    
+    var key = node.id || serviceUrl;
+    if (key && !SimpleSearch.inputs[key]) {
+      SimpleSearch.inputs[key] = new SimpleSearch(serviceUrl, null, containers, configs);
+    }
+    else {
+      SimpleSearch.update(key, callbacks, containers, configs);
+    }
+  }
+};
+
+SimpleSearch.inputs = {};
+
+
+// find elements with data-simple-search attributes and initiate them
 (function() {
   window.addEventListener('DOMContentLoaded', function () {
-    var inputs = document.querySelectorAll('[data-simple-search]');
-    
-    for (var i = 0; i < inputs.length; i++) {
-      var node = inputs[i];
-      var serviceUrl = node.getAttribute('data-simple-search');
-      var containers = {
-        resultsTable: node.getAttribute('data-search-table'),
-        resultsList: node.getAttribute('data-search-list'),
-        facetsList: node.getAttribute('data-search-facets'),
-        inputField: node
-      };
-      
-      new SimpleSearch(serviceUrl, null, containers);
-    }
+    SimpleSearch.update();
   });
 }());
