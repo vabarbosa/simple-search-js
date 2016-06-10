@@ -47,14 +47,15 @@ The module can be initialized via JavaScript or using HTML data attributes:
 * __Javascript__
 
 	```
-	var simplesearch = new SimpleSearch(serviceUrl, callbacks, selectors);
+	var simplesearch = new SimpleSearch(serviceUrl, callbacks, selectors, config);
 	```
 
 	__serviceUrl__ - (_Optional_) the url for the Simple Search Service to connect to  
 	__callbacks__ - (_Optional_) a JavaScript object containing the callback functions to call  (e.g, _onSuccess_, _onFail_, etc)  
-	__selectors__ - (_Optional_) a JavaScript object containing the CSS selectors (e.g., _resultsTable_, _facetsList_, etc)
+	__selectors__ - (_Optional_) a JavaScript object containing the CSS selectors (e.g., _resultsTable_, _facetsList_, etc)  
+	__config__ - (_Optional_) a JavaScript object containing configuration settings (e.g., _disableDeepLinking_, etc)
   
-When the `DOMContentLoaded` event is fired the SimpleSearchJS will check the page for the HTML `data-*` attributes. If none is found or the JavaScript file is added to the page after the event or the `input` (with `data-*` attributes) is added to the page after the event then the module would need to be initialized via JavaScript.  
+When the `DOMContentLoaded` event is fired the SimpleSearchJS will check the page for the HTML `data-*` attributes. If none is found or the JavaScript file is added to the page after the event or the `input` (with `data-*` attributes) is added to the page after the event then the module would need to be initialized via JavaScript (or `update` called).  
 
 It is possible to use both approaches together. In such cases, for any parameters defined in both, the JavaScript value would supersede the data attribute value. The main difference between the two approaches is that callbacks are supported in JavaScript but not in the data attributes.
 
@@ -111,6 +112,12 @@ It is possible to use both approaches together. In such cases, for any parameter
 | resultsTable | string or HTML DOM element | _Optional_ - Where the search results HTML (`table`) fragment is to be inserted. An HTML DOM element or a CSS selector string for the element.
 | resultsList | string or HTML DOM element | _Optional_ - Where the search results HTML (`ul`) fragment is to be inserted. An HTML DOM element or a CSS selector string for the element.
 | facetsList | string or HTML DOM element | _Optional_ - Where the search results facets HTML (`ul`) fragment is to be inserted. An HTML DOM element or a CSS selector string for the element.
+		
+# Configs  
+
+| Name | Descriptions |
+|---|---|
+| disableDeepLinking | `true` if querying should be disallowed from address bar. Note: when set bookmarking search results is not possible   |
 
 
 # API
@@ -140,6 +147,14 @@ Paging is supported by the module using a Next/Previous page pattern. To get the
 
 ```
 simplesearch.prev();
+```
+
+### update(inputId, callbacks, selectors, options)
+
+Change/update the SimpleSearch module attached to the `inputId` with the values of the provided parameters:
+
+```
+SimpleSearch("searchinput", callbackObj, null, updatedOptions)
 ```
 
 # Fragments
