@@ -1,6 +1,6 @@
 {
   "name": "simple-search-js",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "JavaScript module that makes it even easier to consume the Simple Search Service API and enhance your web page.",
   "bin": "./simplesearch.js",
   "repository": {
