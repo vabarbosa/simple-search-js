@@ -36,13 +36,15 @@ The module can be initialized via JavaScript or using HTML data attributes:
 	<input type="text" data-simple-search="http://a-simple-search-service.com"
 	        data-search-results="#results .tablewrapper"
 	        data-search-list=".resultsListWrapper"
-	        data-search-facets="#facetsWrapper">
+	        data-search-facets="#facetsWrapper"
+	        data-search-deeplinking="true">
 	```
 
-	__data-simple-search__ - (_Optional_) the url for the Simple Search Service to connect to  
+	__data-simple-search__ - (_Required_) the url for the Simple Search Service to connect to  
 	__data-search-results__ - (_Optional_) the CSS selector for the element where the search results HTML (`table`) fragment should be inserted  
 	__data-search-list__ - (_Optional_) the CSS selector for the element where the search results HTML (`ul`) fragment should be inserted  
 	__data-search-facets__ - (_Optional_) the CSS selector for the element where the search facets HTML (`ul`) fragment should be inserted  
+	__data-search-deeplinking__ - (_Optional_) `true` to enable deep linking of search queries
 	
 * __Javascript__
 
@@ -53,7 +55,7 @@ The module can be initialized via JavaScript or using HTML data attributes:
 	__serviceUrl__ - (_Optional_) the url for the Simple Search Service to connect to  
 	__callbacks__ - (_Optional_) a JavaScript object containing the callback functions to call  (e.g, _onSuccess_, _onFail_, etc)  
 	__selectors__ - (_Optional_) a JavaScript object containing the CSS selectors (e.g., _resultsTable_, _facetsList_, etc)  
-	__config__ - (_Optional_) a JavaScript object containing configuration settings (e.g., _disableDeepLinking_, etc)
+	__config__ - (_Optional_) a JavaScript object containing configuration settings (e.g., _deepLinking_, etc)
   
 When the `DOMContentLoaded` event is fired the SimpleSearchJS will check the page for the HTML `data-*` attributes. If none is found or the JavaScript file is added to the page after the event or the `input` (with `data-*` attributes) is added to the page after the event then the module would need to be initialized via JavaScript (or `update` called).  
 
@@ -113,11 +115,11 @@ It is possible to use both approaches together. In such cases, for any parameter
 | resultsList | string or HTML DOM element | _Optional_ - Where the search results HTML (`ul`) fragment is to be inserted. An HTML DOM element or a CSS selector string for the element.
 | facetsList | string or HTML DOM element | _Optional_ - Where the search results facets HTML (`ul`) fragment is to be inserted. An HTML DOM element or a CSS selector string for the element.
 		
-# Configs  
+# Config  
 
 | Name | Descriptions |
 |---|---|
-| disableDeepLinking | `true` if querying should be disallowed from address bar. Note: when set bookmarking search results is not possible   |
+| deepLinking | `true` to allow deep linking of search queries |
 
 
 # API
@@ -149,12 +151,12 @@ Paging is supported by the module using a Next/Previous page pattern. To get the
 simplesearch.prev();
 ```
 
-### update(inputId, callbacks, selectors, options)
+### update(inputId, callbacks, selectors, configs)
 
 Change/update the SimpleSearch module attached to the `inputId` with the values of the provided parameters:
 
 ```
-SimpleSearch("searchinput", callbackObj, null, updatedOptions)
+SimpleSearch("searchinput", callbackObj, null, updatedConfigs)
 ```
 
 # Fragments

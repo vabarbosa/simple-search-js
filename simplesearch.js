@@ -63,7 +63,13 @@ var SimpleSearch = function(serviceUrl, callbacks, containers, configuration) {
   else {
     inputField = document.querySelector('[data-simple-search],[data-search-table],[data-search-list],[data-search-facets]');
   }
-  inputField.value = (getUrlQueryString('q') || selectors.query || inputField.value || '');
+
+  if (config.deepLinking === true && getUrlQueryString('q')) {
+    inputField.value = getUrlQueryString('q');
+  }
+  else {
+    inputField.value = (selectors.query || inputField.value || '');
+  }
   
   //check data-search-* attributes
   if (!selectors.resultsTable) {
@@ -214,14 +220,9 @@ var SimpleSearch = function(serviceUrl, callbacks, containers, configuration) {
   };
 
   function getUrlQueryString(queryparam) {
-    if (config.disableDeepLinking === true) {
-      return null;
-    }
-    else {
-      var key = escape(queryparam).replace(/[\.\+\*]/g, "\\$&");
-      var regex = new RegExp("^(?:.*[&\\?]" + key + "(?:\\=([^&]*))?)?.*$", "i");
-      return unescape(window.location.search.replace(regex, "$1"));
-    }
+    var key = escape(queryparam).replace(/[\.\+\*]/g, "\\$&");
+    var regex = new RegExp("^(?:.*[&\\?]" + key + "(?:\\=([^&]*))?)?.*$", "i");
+    return unescape(window.location.search.replace(regex, "$1"));
   }
 
   function getSearchUrl(searchquery, options) {
@@ -339,7 +340,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers, configuration) {
   }
 
   function updateLocation() {
-    if (config.disableDeepLinking !== true) {
+    if (config.deepLinking === true) {
       if (getUrlQueryString('q') !== inputField.value && history.pushState) {
         var updatedurl = null;
 
@@ -871,13 +872,21 @@ SimpleSearch.update = function(nodeid, callbacks, selectors, configs) {
           node.getAttribute('data-search-facets'),
       inputField: node
     };
+
+    var dl = (configs && configs.hasOwnProperty('deepLinking')) ?
+        configs.deepLinking :
+        node.getAttribute('data-search-deeplinking');
+
+    var configuration = {
+      deepLinking: typeof dl === 'string' ? dl.toLowerCase() === 'true' : dl === true
+    };
     
     var key = node.id || serviceUrl;
     if (key && !SimpleSearch.inputs[key]) {
-      SimpleSearch.inputs[key] = new SimpleSearch(serviceUrl, null, containers, configs);
+      SimpleSearch.inputs[key] = new SimpleSearch(serviceUrl, null, containers, configuration);
     }
     else {
-      SimpleSearch.update(key, callbacks, containers, configs);
+      SimpleSearch.update(key, callbacks, containers, configuration);
     }
   }
 };
