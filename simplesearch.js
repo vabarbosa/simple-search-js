@@ -717,7 +717,7 @@ var SimpleSearch = function(serviceUrl, callbacks, containers, configuration) {
 
   function getFacetsHTML(facetkey, facetvalue, countkey) {
     var k = countkey.indexOf(' ') == -1 ? countkey : ('"' + countkey + '"');
-    var v = facetkey.indexOf(' ') == -1 ? facetkey : ('"' + facetkey + '"');
+    var v = facetkey.indexOf(' ') == -1 && isNaN(facetkey) ? facetkey : ('"' + facetkey + '"');
     
     return '<span class="simplesearch-facet-value-name" role="button" data-search-query=\'' +
       k + ':' + v + '\'>' +
