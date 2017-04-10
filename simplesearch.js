@@ -1,3 +1,4 @@
+/* global XMLHttpRequest, history */
 /**
  * SimpleSearchJS
  *
@@ -796,8 +797,6 @@ var SimpleSearch = function (serviceUrl, callbacks, containers, configuration) {
     return query.trim()
   }
 
-
-
   initSpinner()
   initInputField()
 
@@ -950,7 +949,6 @@ SimpleSearch.update = function (nodeid, callbacks, selectors, configs) {
 }
 
 SimpleSearch.inputs = {};
-
 
 // find elements with data-simple-search attributes and initiate them
 (function () {
