@@ -5,7 +5,7 @@
   "bin": "./simplesearch.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ibm-cds-labs/simple-search-js.git"
+    "url": "git+https://github.com/ibm-watson-data-lab/simple-search-js.git"
   },
   "license": "Apache-2.0"
 }
